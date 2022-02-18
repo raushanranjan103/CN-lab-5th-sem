@@ -1,59 +1,47 @@
 #include<stdio.h>
-#include<string.h>
-int checksum(int fl)
+#include<stdlib.h>
+#define min(x,y)(x>y)?y:x
+int main()
 {
-char in[100];
-int i,sum=0,n,temp,temp1;
-scanf("%s",in);
-if(strlen(in)%2!=0)
-        n=(strlen(in)+1)/2;
-else
-        n=(strlen(in))/2;
-for(i=0;i<n;i++)
-    {
-temp=in[i*2];
-temp=(temp*256)+in[(i*2)+1];
-sum=sum+temp;
-    }
-if(fl==1)
-    {
-printf("Enter the checksum value \n");
-scanf ("%x", &temp);
-sum+=temp;
-    }
-if(sum%65536!=0)
-    {
-        n=sum%65536;
-sum=(sum/65536) + n;
-    }
-sum=65535-sum;
-return sum;
+  int orate,count=0,x,inp[10]={0},drop=0,cap,nsec,i=0,ch;
+  printf("\n enter the size of bucket");
+  scanf("%d",&cap);
+  printf("\n  enter the output rate");
+  scanf("%d",&orate);
+do{
+  printf("\nenter the number of packets coming at second %d",i+1);
+   scanf("%d",&inp[i]);
+i++;
+   printf("\n enter 1 to continue or 0 to discontinue");
+   scanf("%d",&ch);
 }
-void main()
+while(ch);
+  nsec=i;
+ printf("\nsecond\treceived\tsent\tdrop\tremained\n");
+for(i=0;count||i<nsec;i++)
 {
-int ch,sum,flag=1;
-while(flag)
-{printf("1.Encode \n2.Decode \n3.Exit \n");
-scanf("%d",&ch);
-switch(ch)
-        {
+  printf("%d",i+1);
+  printf("\t%d\t",inp[i]);
+  printf("\t%d\t",min(count+inp[i],orate));
+  if((x=inp[i]+count-orate)>0)
+ {if(x>cap)
+  {
+  count=cap;
+  drop=x-cap;}
+ else{
+count=x;
+drop=0;
+}
+}
+else
+{
+count=0;
+drop=0;
+}
+printf("\t%d\t%d\t\n",drop,count);
+}
+return 0;
+}
+		
 
-case 1: printf("Enter the string \n");
-        sum=checksum(0);
-        printf("Checksum to append is:%x \n",sum);
-        break;
-case 2: printf("Enter the string \n");
-        sum=checksum(1);
-        if(sum!=0)
-        printf("The data has been tampered with or invalid checksum\n");
-else
-        printf("The checksum is valid \n");
-        break;
-case 3: flag=0;
-        break;
-default: printf("Invalid option, try again \n");
-        }
-    
-}
-}
 

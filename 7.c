@@ -1,55 +1,99 @@
-#include<stdio.h>
 #include<stdlib.h>
-#define MIN(x,y) (x>y)?y:x
+#include<stdio.h>
+#define MAX 10
+int frontl1=0, rearl1 = -1 ,fronth2=0,rearh2=-1, low[MAX],high[MAX] ;
 
-int main()
-{
-int orate,drop=0,cap,x,count=0,
-inp[10]={0},i=0,nsec,ch;
-printf(" \n enter bucket size : ");
-scanf("%d",&cap);
-printf("\n enter output rate :");
-scanf("%d",&orate);
-do{
-printf("\n enter number of packets coming at second %d : ",i+1);
-scanf("%d",&inp[i]);
-i++;
-printf("\n enter 1 to contiue or 0 to quit..........");
-scanf("%d",&ch);
-}while(ch);
-nsec=i;
-printf("\n second \t recieved \t sent \t dropped \t remained \n");
-for(i=0;count || i<nsec;i++)
-{
-printf("%d",i+1);
-printf(" \t %d\t ",inp[i]);
-printf(" \t %d\t ",MIN((inp[i]+count),orate));
-if((x=inp[i]+count-orate)>0)
-{
-if(x>cap)
-{
-count=cap;
-drop=x-cap;
-}
-else
-{
-count=x;
-drop=0;
-}
-}
-else
-{
-drop=0;
-count=0;
-}
-printf(" \t %d \t %d \n",drop,count);
-}
-return 0;
+void push () {int item,ch;
+    printf("Enter the element into the queue\n");
+    scanf("%d",&item);
+    printf("enter the priority of the queue 0 for low 1 for high\n");
+    scanf("%d",&ch);
+    if(ch==0){
+
+    if (rearl1 == MAX - 1) 
+        printf("Queue is full.\n");
+    else {
+        low[++rearl1] = item;
+    }
+    }
+    else
+    {
+        
+    if (rearh2 == MAX - 1) 
+        printf("Queue is full.\n");
+    else {
+        high[++rearh2] = item;
+    }
+    }
 }
 
+void pop () {
 
+	if(fronth2 == - 1 || fronth2 > rearh2)
+	{
+		if(frontl1 == - 1 || frontl1 > rearl1)
+		{
+		printf("Queue Underflow \n");
+		return;
+		}
+		else
+		{
+		printf("Element deleted from queue is : %d \n", low[frontl1++]);
+		}
+		return;
+	}
+	else
+	{
+	printf("Element deleted from queue is : %d \n", high[fronth2++]);
+	}
+}
 
+void display () {
 
+    int i;
+	printf("High Priority Queue ");
+	if(fronth2 == - 1 || fronth2 > rearh2)
+	printf("Queue is empty \n");
+	else
+	{
+	printf("Queue is : \n");
+	for(i = fronth2; i <= rearh2; i++)
+	printf("%d ", high[i]);
+	}
+	printf("Low Priority Queue ");
+	if(frontl1 == - 1 || frontl1 > rearl1)
+	printf("Queue is empty \n");
+	else
+	{
+	printf("Queue is : \n");
+	for(i = frontl1; i <= rearl1; i++)
+	printf("%d ", low[i]);
+	}
+}
 
+void main () {
 
+    int cho , flag=1;
+    printf("Enter the operation to be performed on queue.\n");
 
+    while(flag) {
+
+        printf("1.Push   2.Pop   3.Display   4.Exit   : ");
+        scanf("%d" , &cho);
+
+        switch(cho) {
+            case 1: push();
+                    break;
+            case 2: pop();
+                    break;
+            case 3: display();
+                    break;
+            case 4: flag=0;
+                    printf("Thankyou.\n");
+                    break;
+            default: printf("Invalid Input.\n");
+                     break;
+        }
+    }
+}
+  

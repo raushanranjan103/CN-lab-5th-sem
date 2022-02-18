@@ -1,30 +1,50 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include<math.h>
+
+int gcd(int a, int b){
+    return b == 0 ? a : gcd(b, a % b);   
+   
+}
+
 int main()
 {
-    int w,f;
-    printf("\nenter the size of window\n");
-    scanf("%d",&w);
-    printf("\n enter the no of frames to transmit\n");
-    scanf("%d",&f);
-    int a[f];
-    printf("enter the frames\n");
-    for(int i=1;i<=f;i++)
-    {
-        scanf("%d",&a[i]);
+    printf("-----RSA ALGORITHM-----\n");
+    double p,q,n,c,d,phi,e,msg,m,k;
+    p=3;
+    q=7;
+    n=p*q;
+    phi = (p-1)*(q-1);
+    e = 2;
+
+    while(e<phi){
+        if(gcd(e, phi)==1)
+            break;
+        e++;
     }
-    printf("with slinding window protocol the frames will be sent in the following manner and %d frames at a time\n",w);
-    //printf("%d",a[0]);
-    for(int i=1;i<=f;i++)
-    {   //printf("  %d  ",a[i]);
-        if(i%w==0)
-        {printf("  %d\n  ",a[i]);
-        printf("\n ack of above frames sent is received by sender\n\n");}
-        else
-        {printf("  %d  ",a[i]);
-        }
-        
-        
-        
-    }
+
+    k=2;
+    
+    d = (1+(k*phi))/e;
+
+    msg = 27;
+
+    // c holds the encrypted message
+    // c = (msg^e) mod n
+    c = pow(msg, e);
+    c = fmod(c, n);
+
+    // m is to find the decrypted message
+    // m = c^d mod n
+    m = pow(c,d);
+    m = fmod(m,n);
+
+    // printing all the values
+    printf("Message to be encrypted : %lf\n", msg);
+    printf("p = %lf, q = %lf\n", p,q);
+    printf("n=%lf\nphi=%lf\n", n, phi);
+    printf("e=%lf, d=%lf\n",e, d);
+    printf("Encrypted message : %lf\n", c);
+    printf("Decrypted message : %lf\n", m);
+    printf("\n----------\n");
+    return 0;
 }
